@@ -29,7 +29,7 @@ public class StringListImpl implements StringList {
 
     @Override
     public String add(int index, String item) {
-       validateSize();
+        validateSize();
         validateItem(item);
         validateIndex(index);
         if (index == size) {
