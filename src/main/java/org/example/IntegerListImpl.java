@@ -6,13 +6,14 @@ import org.example.myException.ListIsFullException;
 import org.example.myException.NullItemException;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class IntegerListImpl implements IntegerList {
     private final Integer[] listInteger;
     private int size;
 
     public IntegerListImpl() {
-        listInteger = new Integer[10];
+        listInteger = new Integer[100000];
     }
     public IntegerListImpl(int size) {
         listInteger = new Integer[size];
@@ -76,7 +77,7 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public boolean contains(Integer item) {
         Integer[] listCopy = toArray();
-        sort(listCopy);
+        sortBubble(listCopy);
         return binarySearch(listCopy, item);
     }
 
@@ -149,7 +150,7 @@ public class IntegerListImpl implements IntegerList {
         }
     }
 
-    private void sort(Integer[] arr) {
+     public static void sortInsertion(Integer[] arr) {
         for (int i = 0; i < arr.length; i++) {
             int temp = arr[i];
             int j = i;
@@ -167,7 +168,7 @@ public class IntegerListImpl implements IntegerList {
 
         while (min <= max) {
             int mid = (min + max) / 2;
-            if (item == arr[mid]) {
+            if (Objects.equals(item, arr[mid])) {
                 return true;
             }
             if (item < arr[mid]) {
@@ -178,5 +179,30 @@ public class IntegerListImpl implements IntegerList {
 
         }
         return false;
+    }
+    public static void sortBubble(Integer[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    swapElements(arr, j, j + 1);
+                }
+            }
+        }
+    }
+    public static void sortSelection(Integer[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minElementIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] < arr[minElementIndex]) {
+                    minElementIndex = j;
+                }
+            }
+            swapElements(arr, i, minElementIndex);
+        }
+    }
+    private static void swapElements(Integer[] arr, int indexA, int indexB) {
+        int tmp = arr[indexA];
+        arr[indexA] = arr[indexB];
+        arr[indexB] = tmp;
     }
 }

@@ -17,19 +17,19 @@ class IntegerListImplTest {
     }
     @Test
     void add() {
-        Integer actual = IntegerList.add("Текст");
-        assertEquals("Текст", actual);
+        Integer actual = IntegerList.add(156);
+        assertEquals(156, actual);
     }
 
     @Test
     void testAdd() {
-        Integer actual = IntegerList.add(0, "Текст");
-        assertEquals("Текст", actual);
+        Integer actual = IntegerList.add(0, 156);
+        assertEquals(156, actual);
     }
     @Test
     void addByIndex() {
-        IntegerList.add(0, "Текст");
-        assertEquals("Текст", IntegerList.get(0));
+        IntegerList.add(0, 156);
+        assertEquals(156, IntegerList.get(0));
     }
     @Test
     void addNull() {
@@ -41,12 +41,12 @@ class IntegerListImplTest {
     }
     @Test
     void addInFullList() {
-        IntegerList.add("Текст");
-        IntegerList.add("Текст");
-        IntegerList.add("Текст");
+        IntegerList.add(156);
+        IntegerList.add(156);
+        IntegerList.add(156);
         ListIsFullException listIsFullException = assertThrows(ListIsFullException.class,
                 () ->
-                IntegerList.add("Текст")
+                IntegerList.add(156)
                 );
     }
     @Test
@@ -58,81 +58,81 @@ class IntegerListImplTest {
     }
     @Test
     void addInFullListByIndex() {
-        IntegerList.add("Текст");
-        IntegerList.add("Текст");
-        IntegerList.add("Текст");
+        IntegerList.add(156);
+        IntegerList.add(156);
+        IntegerList.add(156);
         ListIsFullException listIsFullException = assertThrows(ListIsFullException.class,
                 () -> {
-                IntegerList.add(0,"Текст");
+                IntegerList.add(0,156);
         });
     }
 
     @Test
     void addByLargeIndex() {
         IndexIsTooLarge indexIsTooLarge = assertThrows(IndexIsTooLarge.class, () -> {
-            IntegerList.add(5, "Text");
+            IntegerList.add(5, 156);
         });
     }
 
     @Test
     void set() {
-        assertEquals("Text",IntegerList.set(0, "Text"));
+        assertEquals(156,IntegerList.set(0, 156));
     }
 
     @Test
     void remove() {
-        IntegerList.add("Текст");
-        IntegerList.add("Текст2");
+        IntegerList.add(156);
+        IntegerList.add(7584);
         IntegerList.remove(0);
-        assertEquals("Текст2", IntegerList.get(0));
+        assertEquals(7584, IntegerList.get(0));
     }
 
     @Test
     void testRemove() {
-        IntegerList.add("Текст");
-        IntegerList.add("Текст2");
-        IntegerList.remove("Текст");
-        assertEquals("Текст2", IntegerList.get(0));
+        IntegerList.add(156);
+        IntegerList.add(7584);
+        IntegerList.remove(156);
+        assertEquals(7584, IntegerList.get(0));
     }
 
     @Test
     void contains() {
-        IntegerList.add("Текст");
-        assertTrue(IntegerList.contains("Текст"));
+        IntegerList.add(156);
+        assertTrue(IntegerList.contains(156));
     }
     @Test
     void containsFalse() {
-        IntegerList.add("Текст");
-        assertFalse(IntegerList.contains("Текст2"));
+        IntegerList.add(156);
+        assertFalse(IntegerList.contains(7584));
     }
 
     @Test
     void indexOf() {
-        IntegerList.add("Text");
-        IntegerList.add("Text2");
-        IntegerList.add("Text3");
-        assertEquals(1, IntegerList.indexOf("Text2"));
+        IntegerList.add(156);
+        IntegerList.add(7584);
+        IntegerList.add(85944);
+        assertEquals(1, IntegerList.indexOf(7584));
     }
 
     @Test
     void lastIndexOf() {
-        IntegerList.add("Text");
-        IntegerList.add("Text2");
-        IntegerList.add("Text3");
-        assertEquals(1, IntegerList.indexOf("Text2"));
+        IntegerList.add(156);
+        IntegerList.add(7584);
+        IntegerList.add(85944);
+        assertEquals(1, IntegerList.indexOf(7584));
     }
 
     @Test
     void get() {
-        IntegerList.add("Text");
-        assertEquals("Text", IntegerList.get(0));
+        IntegerList.add(156);
+        assertEquals(156, IntegerList.get(0));
     }
 
     @Test
     void size() {
-        IntegerList.add("Text");
-        IntegerList.add("Text");
-        IntegerList.add("Text");
+        IntegerList.add(156);
+        IntegerList.add(156);
+        IntegerList.add(156);
         assertEquals(3, IntegerList.size());
     }
 
@@ -143,8 +143,9 @@ class IntegerListImplTest {
 
     @Test
     void clear() {
-        IntegerList.add("Text");
-        IntegerList.add("Text");
+        IntegerList.add(156);
+        IntegerList.add(156);
+        IntegerList.add(156);
         IntegerList.clear();
         assertTrue(IntegerList.isEmpty());
 
