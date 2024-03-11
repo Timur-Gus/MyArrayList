@@ -2,19 +2,19 @@ package org.example;
 
 import org.example.arrayInterface.IntegerList;
 import org.example.myException.IndexIsTooLarge;
-import org.example.myException.ListIsFullException;
 import org.example.myException.NullItemException;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 public class IntegerListImpl implements IntegerList {
-    private final Integer[] listInteger;
+    private Integer[] listInteger;
     private int size;
 
     public IntegerListImpl() {
-        listInteger = new Integer[100000];
+        listInteger = new Integer[10];
     }
+
     public IntegerListImpl(int size) {
         listInteger = new Integer[size];
     }
@@ -22,7 +22,7 @@ public class IntegerListImpl implements IntegerList {
 
     @Override
     public Integer add(Integer item) {
-        validateSize();
+        growIfNeeded();
         validateItem(item);
         listInteger[size++] = item;
         return item;
@@ -30,7 +30,7 @@ public class IntegerListImpl implements IntegerList {
 
     @Override
     public Integer add(int index, Integer item) {
-        validateSize();
+        growIfNeeded();
         validateItem(item);
         validateIndex(index);
         if (index == size) {
@@ -77,7 +77,7 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public boolean contains(Integer item) {
         Integer[] listCopy = toArray();
-        sortBubble(listCopy);
+        sort(listCopy);
         return binarySearch(listCopy, item);
     }
 
@@ -87,7 +87,7 @@ public class IntegerListImpl implements IntegerList {
             if (listInteger[i].equals(item)) {
                 return i;
             }
-    }
+        }
         return -1;
     }
 
@@ -138,27 +138,15 @@ public class IntegerListImpl implements IntegerList {
         }
     }
 
-    private void validateSize() {
+    private void growIfNeeded() {
         if (size == listInteger.length) {
-            throw new ListIsFullException();
+            grow();
         }
     }
 
     private void validateIndex(int index) {
         if (index < 0 || index > size) {
             throw new IndexIsTooLarge();
-        }
-    }
-
-     public static void sortInsertion(Integer[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            int temp = arr[i];
-            int j = i;
-            while (j > 0 && arr[j - 1] >= temp) {
-                arr[j] = arr[j - 1];
-                j--;
-            }
-            arr[j] = temp;
         }
     }
 
@@ -180,29 +168,41 @@ public class IntegerListImpl implements IntegerList {
         }
         return false;
     }
-    public static void sortBubble(Integer[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            for (int j = 0; j < arr.length - 1 - i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    swapElements(arr, j, j + 1);
-                }
-            }
+
+    public void sort(Integer[] arr) {
+        quickSort(arr, 0, arr.length - 1);
+    }
+
+    private void quickSort(Integer[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
         }
     }
-    public static void sortSelection(Integer[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            int minElementIndex = i;
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[j] < arr[minElementIndex]) {
-                    minElementIndex = j;
-                }
+
+    private int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin - 1);
+        for (int j = 0; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                swapElements(arr, i, j);
+
             }
-            swapElements(arr, i, minElementIndex);
         }
+        swapElements(arr, i + 1, end);
+        return i + 1;
     }
+
     private static void swapElements(Integer[] arr, int indexA, int indexB) {
         int tmp = arr[indexA];
         arr[indexA] = arr[indexB];
         arr[indexB] = tmp;
+    }
+
+    public void grow() {
+        listInteger = Arrays.copyOf(listInteger, size + size / 2);
     }
 }
